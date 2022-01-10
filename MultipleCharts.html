@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multiple Charts</title>
+    <script src="http://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current',{'packages':['corechart']});
+        google.charts.setOnLoadCallback(createMultipleCharts);
+        function createMultipleCharts(){
+            var data=google.visualization.arrayToDataTable([
+                ['Month','Online','Stores','Third Party'],
+                ['Jan',1549,400,504],
+                ['Feb',1400,800,750],
+                ['Mar',1200,650,950],
+                ['Apr',1250,550,650],
+                ['May',1175,770,900],
+                ['Jun',1340,860,870],
+                ['Jul',1000,650,950],
+                ['Aug',990,780,940],
+                ['Sep',1730,920,578],
+                ['Oct',1540,450,930],
+                ['Nov',1190,750,1005],
+                ['Dec',1090,860,1200],
+            ]);
+            var comboChartOptions={
+                title:'Pontenity Sales in 2021 by Channel',
+                vAxis:{title:'Sales'},
+                hAxis:{title:'Month'},
+                seriesType:'bars',
+                series:{
+                    0:{color:'Green'},
+                    1:{color:'Cyan'},
+                    2:{type:'line'}
+                },
+                axisTitlePosition:'in',
+                //default is none for curve type
+                curveType:'function',
+                dataOpacity:0.7,
+                focusTarget:'category'
+            };
+            var areaChartOptions={
+                title:'Pontenity Area Chart',
+                legend:{
+                    position:'top',
+                    textStyle:{
+                        textSize:20,
+                        color:'Green'
+                    }
+                },
+                hAxis: {
+                    title:'Month',
+                    titleTextStyle:{
+                        color:'Blue'
+                    }
+                },
+                vAxis:{
+                    title:'Sales (\'000s $)',
+                    //if the value is idiotic then it will be ignored
+                    minValue:-100
+                },
+                //change the oritentation, basically flip the chart. Default is horizontal
+                orientation:'horizontal',
+                pointShape:'square',
+                tooltip:{
+                    textStyle: {
+                        color:'red'
+                    }
+                },
+                isStacked:'true'
+
+            }
+            var comboChart=new google.visualization.ComboChart(document.getElementById('combochart'));
+            comboChart.draw(data,comboChartOptions);
+            var areaChart=new google.visualization.AreaChart(document.getElementById('areaChart'));
+            areaChart.draw(data,areaChartOptions);
+        }
+    </script>
+</head>
+<body>
+<div id="combochart" style="width:900px;height:700px"></div>
+<div id="areaChart" style="width:900px;height:700px"></div>
+</body>
+</html>

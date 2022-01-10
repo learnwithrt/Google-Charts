@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>Pie Charts</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+    </style>
+    <script>
+        //load the current version of google chart
+        //This can be changed to upcoming for the newer versions but not preferred for production systems
+        google.charts.load('current',{packages:['corechart'], 'language':'en'});
+        google.charts.setOnLoadCallback(createPieChart);
+        function createPieChart(){
+            var data=new google.visualization.DataTable();
+            // Google charts want first column to be string  in case of pie chart
+            //1. Quarter label type
+            //2. Quarter label
+            // data.addColumn('string','Quarter');
+            // data.addColumn('number','Sales');
+            // //Way 1
+            // data.addRows(4);
+            // data.setCell(0,0,'Q1');
+            // data.setCell(0,1,22);
+            // data.setCell(1,0,'Q2');
+            // data.setCell(1,1,28);
+            // data.setCell(2,0,'Q3');
+            // data.setCell(2,1,26);
+            // data.setCell(3,0,'Q4');
+            // data.setCell(3,1,34);
+            //Way 2
+            // data.addRows([
+            //     //v - raw value
+            //     //f - formatted value
+            //     ['Q1',{v:22, f:'$22M'}],
+            //     ['Q2',{v:24, f:'$24M'}],
+            //     ['Q3',{v:27, f:'$27M'}],
+            //     ['Q4',{v:32, f:'$32M'}]
+            // ]);
+            //Way 3
+            var data = google.visualization.arrayToDataTable([
+                ['Quarter','Sales (In Millions)','Expenses (In Millions)', {role:'style'},{role:'annotation'}],
+
+                ['Q1',{v: 22,f:'$22'},{v: 17,f:'$17'},'green','Quarter 1'],
+                ['Q2',{v: 20,f:'$20'},{v: 15,f:'$15'},'#ef67ba','Quarter 2'],
+                ['Q3',{v: 26,f:'$26'},{v: 25,f:'$25'},'color:gray','Quarter 3'],
+                ['Q4',{v: 32,f:'$32'},{v: 23,f:'$23'},'BLUE','Quarter 4']
+            ]);
+
+            var options={
+                height:800,
+                width:600,
+                title:'Pontenity : Quarterly Sales',
+                legend:{
+                    position:'top'
+                },
+                backgroundColor:{
+                    fill:'LightGray',
+                    stroke:'black',
+                    strokeWidth:5
+                },
+                chartArea:{
+                    width:500,
+                    height:700,
+                }
+            };
+            var view = new google.visualization.DataView(data);
+            //which columns of Datatable must be included to the view
+            //Column 0 and 1 will be included
+            //3rd value is a derived column(to show annotation and derive that from column no1 as source
+            view.setColumns([0,1,
+                {
+                    calc:'stringify',
+                    sourceColumn:1,
+                    type:'string',
+                    role:'annotation'
+                },2,3]);
+            var chart= new google.visualization.ColumnChart(document.getElementById('barchart'));
+            //data for chart and another object for configurable options for visualizations
+            chart.draw(view,options);
+        }
+    </script>
+</head>
+<body>
+<h1>Quarter wise Online Sales Analysis</h1>
+<div id="barchart"></div>
+</body>
+</html>

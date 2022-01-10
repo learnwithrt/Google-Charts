@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current',{packages:['corechart','bar'],'language':'en'});
+        google.charts.setOnLoadCallback(createMaterialCharts);
+        function createMaterialCharts(){
+            var data= google.visualization.arrayToDataTable([
+                ['Quarter','Sales','Quantity'],
+
+                ['Q1',{v: 22,f:'$22'},3100],
+                ['Q2',{v: 20,f:'$20'},2800],
+                ['Q3',{v: 26,f:'$26'},4250],
+                ['Q4',{v: 32,f:'$32'},5650]
+            ]);
+            //for Bar charts
+            //var chart = new google.visualization.BarChart(document.getElementById('barchart'));
+            //For Material Charts
+
+            var options={
+                title: "Pontenity Quarterly Online Sales",
+                width: 600,
+                height: 400,
+                bar :{groupWidth: "60%"},
+                // backgroundColor:{
+                //     fill:'lightgray',
+                //     stroke:'black',
+                //     strokeWidth:2
+                // }
+                bars:'horizontal',
+                series:{
+                    0:{axis:'Sales'},
+                    1: {color:'green',axis:'Quantity'}
+                },
+                axes:{
+                    x:{
+                        Sales: {side:'top',label:'in Millions'},
+                        Quantity:{label:'No. of Units Sold'}
+                    }
+                }
+
+
+            };
+            var classicBarChartOptions={
+                title: "Pontenity Quarterly Online Sales",
+                width: 600,
+                height: 400,
+                bar :{groupWidth: "60%"},
+                // backgroundColor:{
+                //     fill:'lightgray',
+                //     stroke:'black',
+                //     strokeWidth:2
+                // }
+                bars:'horizontal',
+                series:{
+                    0:{axis:'Sales'},
+                    1: {color:'green',axis:'Quantity'}
+                },
+                axes:{
+                    x:{
+                        Sales: {side:'top',label:'in Millions'},
+                        Quantity:{label:'No. of Units Sold'}
+                    }
+                }
+
+            }
+            var button= document.getElementById('switch_over');
+            function drawMaterialBarChart(){
+                var materialChart=new google.charts.Bar(document.getElementById('barchart'));
+                materialChart.draw(data,options);
+                button.innerText='Switch to Classic';
+                button.onclick=drawClassicBarChart;
+            }
+            function drawClassicBarChart(){
+                var classicChart=new google.visualization.BarChart(document.getElementById('barchart'));
+                classicChart.draw(data,options);
+                button.innerText='Switch to Material';
+                button.onclick=drawMaterialBarChart;
+            }
+            drawMaterialBarChart();
+        }
+    </script>
+    <title>Material Chart</title>
+</head>
+<body>
+
+
+<div id="barchart"></div>
+<button id="switch_over"></button>
+</body>
+</html>
